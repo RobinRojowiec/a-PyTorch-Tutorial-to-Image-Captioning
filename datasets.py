@@ -1,15 +1,15 @@
-import torch
-from torch.utils.data import Dataset
-import h5py
 import json
 import os
+
+import h5py
+import torch
+from torch.utils.data import Dataset
 
 
 class CaptionDataset(Dataset):
     """
     A PyTorch Dataset class to be used in a PyTorch DataLoader to create batches.
     """
-
     def __init__(self, data_folder, data_name, split, transform=None):
         """
         :param data_folder: folder where data files are stored
@@ -40,6 +40,10 @@ class CaptionDataset(Dataset):
 
         # Total number of datapoints
         self.dataset_size = len(self.captions)
+
+    def __getstate__(self):
+        state = dict(self.__dict__)
+        return state
 
     def __getitem__(self, i):
         # Remember, the Nth caption corresponds to the (N // captions_per_image)th image
